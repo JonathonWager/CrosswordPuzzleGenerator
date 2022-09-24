@@ -1,0 +1,8 @@
+C:\Users\jmn12\Documents\Cios2020\2020H-A1-PARTA\2020H-A1-PARTA\obj\Debug\2020H-A1-PARTA.csproj.AssemblyReference.cache
+C:\Users\jmn12\Documents\Cios2020\2020H-A1-PARTA\2020H-A1-PARTA\obj\Debug\2020H-A1-PARTA.csproj.SuggestedBindingRedirects.cache
+C:\Users\jmn12\Documents\Cios2020\2020H-A1-PARTA\2020H-A1-PARTA\obj\Debug\2020H-A1-PARTA.csproj.CoreCompileInputs.cache
+C:\Users\jmn12\Documents\Cios2020\2020H-A1-PARTA\2020H-A1-PARTA\bin\Debug\2020H-A1-PARTA.exe.config
+C:\Users\jmn12\Documents\Cios2020\2020H-A1-PARTA\2020H-A1-PARTA\bin\Debug\2020H-A1-PARTA.exe
+C:\Users\jmn12\Documents\Cios2020\2020H-A1-PARTA\2020H-A1-PARTA\bin\Debug\2020H-A1-PARTA.pdb
+C:\Users\jmn12\Documents\Cios2020\2020H-A1-PARTA\2020H-A1-PARTA\obj\Debug\2020H-A1-PARTA.exe
+C:\Users\jmn12\Documents\Cios2020\2020H-A1-PARTA\2020H-A1-PARTA\obj\Debug\2020H-A1-PARTA.pdb
