@@ -98,18 +98,67 @@ namespace _2020H_A1_PARTA
                 this.blackAmount = blackCount;
                 
                 int ranX, ranY = rand.Next(0, length);
-
-                for (int i = 0; i < blackAmount;)
+                if (blackCount <= puzzle.Length)
                 {
-                    ranX = rand.Next(0, length);
-                    ranY = rand.Next(0, length);
-                    if (puzzle[ranX, ranY].Color == TColor.WHITE)
+                    for (int i = 0; i < blackAmount;)
                     {
-                        i++;
-                        puzzle[ranX, ranY].Color = TColor.BLACK;
-                        testAmount++;
-                    }
+                        ranX = rand.Next(0, length);
+                        ranY = rand.Next(0, length);
+                        if (puzzle[ranX, ranY].Color == TColor.WHITE)
+                        {
+                            i++;
+                            puzzle[ranX, ranY].Color = TColor.BLACK;
+                            testAmount++;
+                        }
 
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("To many black squares requested");
+                }
+               
+            }
+            public void Number()
+            {
+                int clueNumber = 1;
+                for (int i = 0; i < this.length; i++)
+                {
+                    for (int j = 0; j < this.length; j++)
+                    {
+                        if(puzzle[j,i].Color == TColor.WHITE)
+                        {
+                            if(j - 1 >= 0)
+                            {
+                                
+                                if(puzzle[j - 1, i].Color == TColor.BLACK)
+                                {
+                                    if(j+ 1 < length)
+                                    {
+                                        if(puzzle[j+1, i].Color == TColor.WHITE)
+                                        {
+                                            puzzle[j, i].Number = clueNumber;
+                                            clueNumber++;
+                                        }
+                                    }
+                                    
+                                }
+                                
+                            }
+                            else
+                            {
+                                if (j + 1 <= length)
+                                {
+                                    if (puzzle[j + 1, i].Color == TColor.WHITE)
+                                    {
+                                        puzzle[j, i].Number = clueNumber;
+                                        clueNumber++;
+                                    }
+                                }
+                                       
+                            }
+                        }
+                    }
                 }
             }
             //function to print puzzle
@@ -135,11 +184,13 @@ namespace _2020H_A1_PARTA
         static void Main(string[] args)
         {
             //creating a new 6x6 puzzle
-            Puzzle puz = new Puzzle(100);
+            Puzzle puz = new Puzzle(5);
             //initializing 8 black squares
-            puz.Initialize(200);
+            puz.Initialize(5);
             //print puzzle
             Console.WriteLine( puz.ToString());
+            puz.Number();
+            Console.WriteLine(puz.ToString());
             //program pause to read output
             Console.ReadKey();
         }
