@@ -38,19 +38,19 @@ namespace _2020H_A1_PARTA
                     //if square is set to white and has value of -1
                     if(Color == TColor.WHITE)
                     {
-                        stringReturn = stringReturn + "W";
+                        stringReturn = stringReturn + "WW";
                     }
                     else
                     {
                         //if it has value of -1 and is not white
-                        stringReturn = stringReturn + "B";
+                        stringReturn = stringReturn + "BB";
                     }
 
                 }
                 else
                 {
                     //if square has number
-                    stringReturn = stringReturn + Number;
+                    stringReturn = stringReturn + Number.ToString("D2");
                 }
                 return stringReturn;
             }
@@ -121,13 +121,16 @@ namespace _2020H_A1_PARTA
             }
             public void Number()
             {
-                int clueNumber = 1;
+                int clueNumber = 01;
                 for (int i = 0; i < this.length; i++)
                 {
                     for (int j = 0; j < this.length; j++)
                     {
+
                         if(puzzle[j,i].Color == TColor.WHITE)
                         {
+                            //across
+
                             if(j - 1 >= 0)
                             {
                                 
@@ -157,6 +160,30 @@ namespace _2020H_A1_PARTA
                                 }
                                        
                             }
+                            if(puzzle[j, i].Number == -1)
+                            {
+                                //down
+                                if(i- 1 >= 0)
+                                {
+                                    if(puzzle[j, i-1].Color == TColor.BLACK)
+                                    {
+                                        if (i + 1 < length)
+                                        {
+                                            if (puzzle[j, i + 1].Color == TColor.WHITE)
+                                            {
+                                                puzzle[j, i].Number = clueNumber;
+                                                clueNumber++;
+                                            }
+                                        }
+                                    }
+                                }
+                                else
+                                {
+
+                                    puzzle[j, i].Number = clueNumber;
+                                    clueNumber++;
+                                }
+                            }
                         }
                     }
                 }
@@ -171,7 +198,7 @@ namespace _2020H_A1_PARTA
                     for (int j = 0; j < this.length; j++)
                     {
                         //add each square to write line
-                        returnString = returnString + this.puzzle[j, i].ToString();
+                        returnString = returnString + this.puzzle[j, i].ToString() + " ";
                     }
                     //print that line
                     returnString = returnString + "\n";
