@@ -71,30 +71,7 @@ namespace _2020H_A1_PARTA
             //testing varible to see how many black squares where requested vs init
             private int testAmount = 0;
             
-            
-            //method to randomly determine whether square should be black
-            private int WhiteOrBlack()
-            {            
-                //***THIS METHOD NEEDS WORK STILL GETTING REQUESTED / INIT BLACK SQUARE MISMATCHES***
-                //getting random number between 0 and 100000
-                int random = rand.Next(0, 100000);
-
-                //calculating what chance each square has to be black
-                double blackPercent = (double)blackAmount / (double)puzzle.Length * 100000 ;
-                
-                //if random number generated is less than the chance to be black
-                if (random < blackPercent)
-                {
-                    //add 1 to test amount and return 1 signifing that that square is black
-                    testAmount++;
-                    return 1;
-                }
-                else
-                {
-                    //return 0 which stands for white
-                    return 0;
-                }
-            }
+           
 
             //constructor for puzzle
             public Puzzle(int length)
@@ -119,62 +96,50 @@ namespace _2020H_A1_PARTA
             {
                 //get amount to blacks requested
                 this.blackAmount = blackCount;
-                //loop through puzzle
-                for (int i = 0; i < this.length; i++)
+                
+                int ranX, ranY = rand.Next(0, length);
+
+                for (int i = 0; i < blackAmount;)
                 {
-                    for (int j = 0; j < this.length; j++)
+                    ranX = rand.Next(0, length);
+                    ranY = rand.Next(0, length);
+                    if (puzzle[ranX, ranY].Color == TColor.WHITE)
                     {
-                        //if the blackCount = 0 dont add anymore black squares and break
-                        if(blackCount == 0)
-                        {
-                            break;
-                        }
-                        else
-                        {
-                            //if WhiteorBlack method returens 1 set current square to black
-                            if (WhiteOrBlack() == 1)
-                            {
-                                puzzle[i, j].Color = TColor.BLACK;
-                                //-1 from black count
-                                blackCount--;
-                            }
-                        }   
+                        i++;
+                        puzzle[ranX, ranY].Color = TColor.BLACK;
+                        testAmount++;
                     }
 
                 }
             }
             //function to print puzzle
-            //***HEIN SIGHT THIS SHOULD BE A TOSTRING() OVERIDE NOT A VOID
-            public void printPuzzle()
+            public override string ToString()
             {
-                //creat string line write var
-                string line = "";
-                //loop through puzzle
-                for(int i = 0; i< this.length; i++)
+
+                string returnString = "";
+                for (int i = 0; i < this.length; i++)
                 {
-                    for(int j = 0; j < this.length; j++)
+                    for (int j = 0; j < this.length; j++)
                     {
                         //add each square to write line
-                        line = line+this.puzzle[j,i].ToString();
+                        returnString = returnString + this.puzzle[j, i].ToString();
                     }
                     //print that line
-                    Console.WriteLine(line);
-                    //reset line varible
-                    line = "";
+                    returnString = returnString + "\n";
+                    
+                    
                 }
-                //testing print to see if black req == init
-                Console.WriteLine("Black Squares Requested = " + this.blackAmount + " Black Squres Initilized = " +this.testAmount);
-
+                return returnString;
             }
         }
         static void Main(string[] args)
         {
             //creating a new 6x6 puzzle
-            Puzzle puz = new Puzzle(6);
+            Puzzle puz = new Puzzle(100);
             //initializing 8 black squares
-            puz.Initialize(8);
+            puz.Initialize(200);
             //print puzzle
-            puz.printPuzzle();
+            Console.WriteLine( puz.ToString());
             //program pause to read output
             Console.ReadKey();
         }
