@@ -14,7 +14,6 @@ namespace _2020H_A1_PARTA
         {
             //string to hold Tostring return
             private string stringReturn = "";
-            
             //get and sets for Color and Number
             public TColor Color { get; set; }
             public int Number { set; get; }
@@ -31,8 +30,6 @@ namespace _2020H_A1_PARTA
             {
                 //reset return string
                 stringReturn = "";
-                
-
                 if(Number == -1)
                 {
                     //if square is set to white and has value of -1
@@ -45,7 +42,6 @@ namespace _2020H_A1_PARTA
                         //if it has value of -1 and is not white
                         stringReturn = stringReturn + "BB";
                     }
-
                 }
                 else
                 {
@@ -54,10 +50,8 @@ namespace _2020H_A1_PARTA
                 }
                 return stringReturn;
             }
-
-
         }
-            public class Puzzle
+        public class Puzzle
         {
             //actual 2d array that holds the squares
             private Square[,] puzzle;
@@ -67,17 +61,13 @@ namespace _2020H_A1_PARTA
             private Random rand = new Random();
             //amount of black squares requested for this puzzle
             public int blackAmount;
-
-            //testing varible to see how many black squares where requested vs init
-            private int testAmount = 0;
-            
-           
-
+            private string acrossClues = "";
+            private string downClues = "";
             //constructor for puzzle
             public Puzzle(int length)
             {
                 //creating new array with demensions specified
-                puzzle = new Square[length,length];
+                puzzle = new Square[length, length];
 
                 //setting class lenght = to length
                 this.length = length;
@@ -88,7 +78,6 @@ namespace _2020H_A1_PARTA
                     {
                         puzzle[j, i] = new Square();
                     }
-                   
                 }
             }
             //adds black squares to puzzle
@@ -96,7 +85,7 @@ namespace _2020H_A1_PARTA
             {
                 //get amount to blacks requested
                 this.blackAmount = blackCount;
-                
+
                 int ranX, ranY = rand.Next(0, length);
                 if (blackCount <= puzzle.Length)
                 {
@@ -108,16 +97,13 @@ namespace _2020H_A1_PARTA
                         {
                             i++;
                             puzzle[ranX, ranY].Color = TColor.BLACK;
-                            testAmount++;
                         }
-
                     }
                 }
                 else
                 {
                     Console.WriteLine("To many black squares requested");
                 }
-               
             }
             public void Number()
             {
@@ -126,27 +112,24 @@ namespace _2020H_A1_PARTA
                 {
                     for (int j = 0; j < this.length; j++)
                     {
-
-                        if(puzzle[j,i].Color == TColor.WHITE)
+                        if (puzzle[j, i].Color == TColor.WHITE)
                         {
                             //across
-
-                            if(j - 1 >= 0)
+                            if (j - 1 >= 0)
                             {
-                                
-                                if(puzzle[j - 1, i].Color == TColor.BLACK)
+                                if (puzzle[j - 1, i].Color == TColor.BLACK)
                                 {
-                                    if(j+ 1 < length)
+                                    if (j + 1 < length)
                                     {
-                                        if(puzzle[j+1, i].Color == TColor.WHITE)
+                                        if (puzzle[j + 1, i].Color == TColor.WHITE)
                                         {
                                             puzzle[j, i].Number = clueNumber;
+                                            acrossClues = acrossClues + clueNumber + " Across\n";
                                             clueNumber++;
+
                                         }
                                     }
-                                    
                                 }
-                                
                             }
                             else
                             {
@@ -155,43 +138,58 @@ namespace _2020H_A1_PARTA
                                     if (puzzle[j + 1, i].Color == TColor.WHITE)
                                     {
                                         puzzle[j, i].Number = clueNumber;
+                                        acrossClues = acrossClues + clueNumber + " Across\n";
                                         clueNumber++;
                                     }
                                 }
-                                       
                             }
-                            if(puzzle[j, i].Number == -1)
+                            //down
+                            if (i - 1 >= 0)
                             {
-                                //down
-                                if(i- 1 >= 0)
+                                if (puzzle[j, i - 1].Color == TColor.BLACK)
                                 {
-                                    if(puzzle[j, i-1].Color == TColor.BLACK)
+                                    if (i + 1 < length)
                                     {
-                                        if (i + 1 < length)
+                                        if (puzzle[j, i + 1].Color == TColor.WHITE)
                                         {
-                                            if (puzzle[j, i + 1].Color == TColor.WHITE)
+                                            if (puzzle[j, i].Number == -1)
                                             {
                                                 puzzle[j, i].Number = clueNumber;
+                                                downClues = downClues + clueNumber + " Down\n";
                                                 clueNumber++;
+                                            }
+                                            else
+                                            {
+                                                downClues = downClues + puzzle[j, i].Number + " Down\n";
                                             }
                                         }
                                     }
                                 }
+                            }
+                            else
+                            {
+                                if (puzzle[j, i].Number == -1)
+                                {
+                                    puzzle[j, i].Number = clueNumber;
+                                    downClues = downClues + clueNumber + " Down\n";
+                                    clueNumber++;
+                                }
                                 else
                                 {
-
-                                    puzzle[j, i].Number = clueNumber;
-                                    clueNumber++;
+                                    downClues = downClues + puzzle[j, i].Number + " Down\n";
                                 }
                             }
                         }
                     }
                 }
             }
+            public void PrintClues()
+            {
+                Console.WriteLine(acrossClues + downClues);
+            }
             //function to print puzzle
             public override string ToString()
             {
-
                 string returnString = "";
                 for (int i = 0; i < this.length; i++)
                 {
@@ -201,9 +199,7 @@ namespace _2020H_A1_PARTA
                         returnString = returnString + this.puzzle[j, i].ToString() + " ";
                     }
                     //print that line
-                    returnString = returnString + "\n";
-                    
-                    
+                    returnString = returnString + "\n";                                     
                 }
                 return returnString;
             }
@@ -211,13 +207,14 @@ namespace _2020H_A1_PARTA
         static void Main(string[] args)
         {
             //creating a new 6x6 puzzle
-            Puzzle puz = new Puzzle(5);
+            Puzzle puz = new Puzzle(8);
             //initializing 8 black squares
-            puz.Initialize(5);
+            puz.Initialize(22);
             //print puzzle
             Console.WriteLine( puz.ToString());
             puz.Number();
             Console.WriteLine(puz.ToString());
+            puz.PrintClues();
             //program pause to read output
             Console.ReadKey();
         }
