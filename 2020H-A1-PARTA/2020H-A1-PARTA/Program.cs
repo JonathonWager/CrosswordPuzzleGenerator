@@ -86,97 +86,155 @@ namespace _2020H_A1_PARTA
                 //get amount to blacks requested
                 this.blackAmount = blackCount;
 
-                int ranX, ranY = rand.Next(0, length);
+                //declares two ints for holding rand values
+                int ranX, ranY;
+                //if the black count requested is less than total squares in puzzle
                 if (blackCount <= puzzle.Length)
                 {
                     for (int i = 0; i < blackAmount;)
                     {
+                        //for each black square requested
                         ranX = rand.Next(0, length);
                         ranY = rand.Next(0, length);
+                        //if the square at the randome location is white
                         if (puzzle[ranX, ranY].Color == TColor.WHITE)
                         {
+                            //add 1 to i to increase for loop
                             i++;
+                            //make that square black
                             puzzle[ranX, ranY].Color = TColor.BLACK;
                         }
                     }
                 }
                 else
                 {
+                    //if there are more black squares requested than possible
+                    //*** SHOULD BE EXCEPTION
                     Console.WriteLine("To many black squares requested");
                 }
             }
             public void Number()
             {
-                int clueNumber = 01;
+                //init clue counter int
+                int clueNumber = 1;
+                //loop through puzzle
                 for (int i = 0; i < this.length; i++)
                 {
                     for (int j = 0; j < this.length; j++)
                     {
+                        //if current square in loop is white
                         if (puzzle[j, i].Color == TColor.WHITE)
                         {
-                            //across
+                            //across logic
+                            //checks if square is starting at an across boudary 
                             if (j - 1 >= 0)
                             {
+                                //if its not at a boundary
+                                //checks if previous across square is black
                                 if (puzzle[j - 1, i].Color == TColor.BLACK)
                                 {
+                                    //if previous square is black
+                                    //check to make sure next square is not boundary
                                     if (j + 1 < length)
                                     {
+                                        //if next square is not a boundary
+                                        //check to make sure next across square is white and not black
                                         if (puzzle[j + 1, i].Color == TColor.WHITE)
                                         {
+                                            //if next square is white
+                                            //add clue number to current square
                                             puzzle[j, i].Number = clueNumber;
+                                            //add clue to string of across clues
                                             acrossClues = acrossClues + clueNumber + " Across\n";
+                                            //add 1 to clue counter
                                             clueNumber++;
 
                                         }
                                     }
                                 }
                             }
+                            //square is white and starting at across boundary
                             else
                             {
+                                //check to see if next square is also a boundary
                                 if (j + 1 <= length)
                                 {
+                                    //if next square isnt a boundary
+                                    //check to make sure next square is white
                                     if (puzzle[j + 1, i].Color == TColor.WHITE)
                                     {
+                                        //if it is white add clue number to currenet puzzle
                                         puzzle[j, i].Number = clueNumber;
+                                        //add across clue to across clue string
                                         acrossClues = acrossClues + clueNumber + " Across\n";
+                                        //add to clue count
                                         clueNumber++;
                                     }
                                 }
                             }
-                            //down
+                            //down logic
+                            //check to see if square above is boundary
                             if (i - 1 >= 0)
                             {
+                                //if not a boundary check to see if the square above is black
                                 if (puzzle[j, i - 1].Color == TColor.BLACK)
                                 {
+                                    //if it is black
+                                    //check to see if square below is a boundary
                                     if (i + 1 < length)
                                     {
+                                        //if square below was not a boundary
+                                        //check to make sure next square is white
                                         if (puzzle[j, i + 1].Color == TColor.WHITE)
                                         {
+                                            //if next down square is white
+                                            //check to see if current square allready has clue number assigned from across clues
                                             if (puzzle[j, i].Number == -1)
                                             {
+                                                //if the square has not allready been assigned clue
+                                                //add clue number to square
                                                 puzzle[j, i].Number = clueNumber;
+                                                //add it to downclues string and add one to clue count
                                                 downClues = downClues + clueNumber + " Down\n";
                                                 clueNumber++;
                                             }
                                             else
                                             {
+                                                //if square was allready assigned across clue
+                                                //add it to down clues without assigning new clue number
                                                 downClues = downClues + puzzle[j, i].Number + " Down\n";
                                             }
                                         }
                                     }
                                 }
                             }
+                            //if square above is a boundary
                             else
                             {
-                                if (puzzle[j, i].Number == -1)
+                                //check to make sure next square down is not boundary
+                                if (i + 1 < length)
                                 {
-                                    puzzle[j, i].Number = clueNumber;
-                                    downClues = downClues + clueNumber + " Down\n";
-                                    clueNumber++;
-                                }
-                                else
-                                {
-                                    downClues = downClues + puzzle[j, i].Number + " Down\n";
+                                    //check to make sure next square down is white
+                                    if (puzzle[j, i + 1].Color == TColor.WHITE)
+                                    {
+                                        //if next sqaure down is not boundary and is white
+                                        //check to see if current square has allready been assigned across clue
+                                        if (puzzle[j, i].Number == -1)
+                                        {
+                                            //if it has not been assigned a clue
+                                            //add clue number to square
+                                            puzzle[j, i].Number = clueNumber;
+                                            //add it to down clues string
+                                            downClues = downClues + clueNumber + " Down\n";
+                                            //add 1 to clue count
+                                            clueNumber++;
+                                        }
+                                        else
+                                        {
+                                            //if was allready assigned across clue then add it to clue string but not a new clue number
+                                            downClues = downClues + puzzle[j, i].Number + " Down\n";
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -186,6 +244,21 @@ namespace _2020H_A1_PARTA
             public void PrintClues()
             {
                 Console.WriteLine(acrossClues + downClues);
+            }
+            public void PrintGrid()
+            {
+                string line = "";
+                for (int i = 0; i < this.length; i++)
+                 {
+                    line = "";
+                    for (int j = 0; j < this.length; j++)
+                    {
+                        //add each square to write line
+                        line = line + this.puzzle[j, i].ToString() + " ";
+                    }
+                    //print that line
+                    Console.WriteLine(line);                                     
+                }
             }
             //function to print puzzle
             public override string ToString()
@@ -211,9 +284,10 @@ namespace _2020H_A1_PARTA
             //initializing 8 black squares
             puz.Initialize(22);
             //print puzzle
-            Console.WriteLine( puz.ToString());
+            //Console.WriteLine( puz.ToString());
             puz.Number();
-            Console.WriteLine(puz.ToString());
+            puz.PrintGrid();
+            //Console.WriteLine(puz.ToString());
             puz.PrintClues();
             //program pause to read output
             Console.ReadKey();
