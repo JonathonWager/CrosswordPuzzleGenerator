@@ -44,6 +44,7 @@ namespace _2020H_A1_PARTA
                     }
                 }
                 else
+
                 {
                     //if square has number
                     stringReturn = stringReturn + Number.ToString("D2");
@@ -93,7 +94,7 @@ namespace _2020H_A1_PARTA
                 {
                     for (int i = 0; i < blackAmount;)
                     {
-                        //for each black square requested
+                        //for each black square requested 
                         ranX = rand.Next(0, length);
                         ranY = rand.Next(0, length);
                         //if the square at the randome location is white
@@ -241,6 +242,25 @@ namespace _2020H_A1_PARTA
                     }
                 }
             }
+            public bool Symmetrical()
+            {
+                int lengthCountX = length-1;
+                int lengthCountY = length - 1;
+                for(int i = 0; i < length; i++)
+                {
+                    for(int j = 0; j < length/2; j++)
+                    {
+                        if (puzzle[j, i].Color != puzzle[lengthCountX, lengthCountY].Color)
+                        {
+                            return false;
+                        }
+                        lengthCountX--;
+                    }
+                    lengthCountY--;
+                    lengthCountX = length-1;
+                }
+                return true;
+            }
             public void PrintClues()
             {
                 Console.WriteLine(acrossClues + downClues);
@@ -266,7 +286,7 @@ namespace _2020H_A1_PARTA
                 string returnString = "";
                 for (int i = 0; i < this.length; i++)
                 {
-                    for (int j = 0; j < this.length; j++)
+                    for (int j = 0; j < this.length/2; j++)
                     {
                         //add each square to write line
                         returnString = returnString + this.puzzle[j, i].ToString() + " ";
@@ -280,15 +300,16 @@ namespace _2020H_A1_PARTA
         static void Main(string[] args)
         {
             //creating a new 6x6 puzzle
-            Puzzle puz = new Puzzle(8);
+            Puzzle puz = new Puzzle(6);
             //initializing 8 black squares
-            puz.Initialize(22);
+            puz.Initialize(8);
             //print puzzle
             //Console.WriteLine( puz.ToString());
             puz.Number();
             puz.PrintGrid();
             //Console.WriteLine(puz.ToString());
             puz.PrintClues();
+            Console.WriteLine(puz.Symmetrical());
             //program pause to read output
             Console.ReadKey();
         }
